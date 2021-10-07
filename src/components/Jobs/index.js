@@ -13,6 +13,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import TextField from "@material-ui/core/TextField";
 import * as actions from "../../actions";
+import fetchJob from '../../actions/fetchJob'
 const styles = {
   post: {
     textDecoration: "none",
@@ -38,9 +39,9 @@ class Jobs extends React.Component {
     page: 1,
     page_size: 6
   };
-  handleChangePage = value => {
-    this.setState({ page: value });
-  };
+  componentDidMount() {
+    this.props.fetchJob();
+  }
   /*state = {
     jobs: []
   };
@@ -54,6 +55,9 @@ class Jobs extends React.Component {
         console.log(err);
       });
   }*/
+  // handleChangePage = value => {
+  //   this.setState({ page: value });
+  // };
   handleSubmitfield = event => {
     event.preventDefault();
     this.props.onfilterfield(this.state.field);
@@ -88,7 +92,7 @@ class Jobs extends React.Component {
       );
     }
     return (
-      <Grid container direction="row" justify="center" spacing={3}>
+      <Grid container direction="row" spacing={3}>
         <Grid item xs={9}>
           <Link to="/postjob" className={this.props.classes.post}>
             <AccessibilityNewIcon fontSize="large" />
@@ -99,24 +103,29 @@ class Jobs extends React.Component {
               </Button>
             </Box>
           </Link>
-          <Typography variant="h5" color="black">
+          <Typography variant="h5">
             IT jobs in Vietnam for you
           </Typography>
           <Box>
-            {[...this.props.jobs]
-              .splice(
-                (this.state.page - 1) * this.state.page_size,
-                this.state.page_size
-              )
+            {[...this.props.listJobs]
+              // .splice(
+              //   (this.state.page - 1) * this.state.page_size,
+              //   this.state.page_size
+              // )
               .map(job => {
+                console.log("j", job.contents)
+                let tempDescription = job.contents ? job.contents.match(/<strong>.*?<\/strong>/g) : [];
+                console.log("t", tempDescription)
+                let description = tempDescription ? (tempDescription[0] ? tempDescription[0] : tempDescription[1]) : '<strong>No information</strong>';
                 return (
                   <Job
                     id={job.id}
-                    title={job.title}
-                    field={job.field}
-                    company={job.company}
-                    logo={job.logo}
-                    description={job.description}
+                    title={job.name}
+                    levels={job.levels}
+                    field={job.categories}
+                    company={job.company.name}
+                    // logo={job.logo}
+                    description={description}
                   ></Job>
                 );
               })}
@@ -129,7 +138,7 @@ class Jobs extends React.Component {
           </Box>
         </Grid>
         <Grid item xs={3} className={this.props.classes.item}>
-          <Typography variant="h5" color="black">
+          <Typography variant="h5">
             Sort
           </Typography>
           <List
@@ -176,7 +185,6 @@ class Jobs extends React.Component {
             variant="contained"
             color="primary"
             type="submit"
-            onClick={this.props.showjob()}
           >
             <Link to="/jobs">Reset</Link>
           </Button>
@@ -187,14 +195,17 @@ class Jobs extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    jobs: state.jobs
+    listJobs: state.job.listJobs,
+    jobs: state.jobs,
+    error: state.error,
+    loading: state.loading
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     onfiltercountry: country => dispatch(actions.filtercountry(country)),
     onfilterfield: field => dispatch(actions.filterfield(field)),
-    showjob: () => dispatch(actions.showjob())
+    fetchJob: () => dispatch(fetchJob())
   };
 };
 

@@ -9,15 +9,10 @@ import Jobdetails from "./components/Jobdetails";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
 import Companydetail from "./components/Companydetail";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import rootReducer from "./reducers";
+import { store } from "./reducers/store";
 import Home from "./components/Home";
 import Account from "./components/Account";
-let store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
 
 export default function App() {
   return (

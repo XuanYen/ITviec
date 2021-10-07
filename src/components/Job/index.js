@@ -36,13 +36,13 @@ const useStyles = makeStyles(theme => ({
 }));
 function Job(props) {
   const classes = useStyles();
-  const { id, title, field, company, logo, description } = props;
-
+  const { id, title, field, company, description } = props;
+  console.log(props);
   return (
     <Box display="flex" className={classes.box} boxShadow={3}>
-      <Box width="30%">
-        <img src={logo} alt="No logo :)" />
-      </Box>
+      {/* <Box width="30%">
+        <img alt="No logo :)" />
+      </Box> */}
       <Box className={classes.box} width="70%">
         <Typography variant="h6">
           #{id} {title}
@@ -60,19 +60,19 @@ function Job(props) {
         <Box>
           <Typography variant="p">
             <FormatQuoteIcon />
-            {description[0]}
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Box>
-            {field.map(f => (
+            {field.length > 0 ? field.map(f => (
               <Button
                 variant="outlined"
                 size="small"
                 color="primary"
                 className={classes.margin}
               >
-                {f}
+                {f.name}
               </Button>
-            ))}
+            )) : null}
           </Box>
         </Box>
       </Box>
