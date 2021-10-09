@@ -23,9 +23,9 @@ export default function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/jobs" component={Jobs} />
           <Route exact path="/postjob" component={Postjob} />
-          <Route path="/job/:idjob" component={Jobdetails} />
+          <Route path="/job/:id" component={Jobdetails} />
           <Route path="/companies" component={Companies} />
-          <Route path="/company/:idcompany" component={Companydetail} />
+          <Route path="/company/:id" component={Companydetail} />
           <Route path="/signin" component={Signin} />
           <Route path="/account" component={Account} />
           <Footers />

@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Typography, Button } from "@material-ui/core";
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../actions";
+
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 const useStyles = makeStyles(theme => ({
@@ -34,10 +35,9 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-function Job(props) {
+const Job = (props) => {
   const classes = useStyles();
-  const { id, title, field, company, description } = props;
-  console.log(props);
+  const { id, title, field, company, description, levels, locations } = props;
   return (
     <Box display="flex" className={classes.box} boxShadow={3}>
       {/* <Box width="30%">
@@ -47,22 +47,16 @@ function Job(props) {
         <Typography variant="h6">
           #{id} {title}
         </Typography>
-        <Typography variant="h6">{company}</Typography>
-        <Button
-          onClick={() => props.onjobdetail(id)}
-          className={classes.link}
-          startIcon={<ArrowForwardIosIcon />}
-          variant="contained"
-          color="primary"
-        >
-          <Link to={`job/${id}`}>See into view</Link>
-        </Button>
+        <div>
+          <Typography variant="p">Company: {company}</Typography>
+        </div>
         <Box>
           <Typography variant="p">
             <FormatQuoteIcon />
-            <div dangerouslySetInnerHTML={{ __html: description }} />
+            <span dangerouslySetInnerHTML={{ __html: description }} />
           </Typography>
           <Box>
+            <Typography variant="span">Categories: </Typography>
             {field.length > 0 ? field.map(f => (
               <Button
                 variant="outlined"
@@ -74,15 +68,24 @@ function Job(props) {
               </Button>
             )) : null}
           </Box>
+          <ButtonGroup variant="contained" aria-label="outlined primary button group">
+            {levels.length > 0 ? <Button>{levels[0].name}</Button> : null}
+            {locations.length > 0 ? <Button>{locations[0].name}</Button> : null}
+          </ButtonGroup>
+          <Button
+            className={classes.link}
+            startIcon={<ArrowForwardIosIcon />}
+            variant="outlined"
+            color="primary"
+            href={`job/${id}`}
+          >
+            See into view
+          </Button>
         </Box>
       </Box>
     </Box>
   );
 }
-const mapDispatchToProps = dispatch => {
-  return {
-    onjobdetail: id => dispatch(actions.jobdetail(id))
-  };
-};
 
-export default connect(null, mapDispatchToProps)(Job);
+
+export default Job;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import {
   CircularProgress,
@@ -15,7 +15,7 @@ import {
   ListItem,
   Button
 } from "@material-ui/core";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import compose from "recompose/compose";
 import PeopleIcon from "@material-ui/icons/People";
@@ -26,6 +26,7 @@ import MonetizationOnRoundedIcon from "@material-ui/icons/MonetizationOnRounded"
 import LocationOnRoundedIcon from "@material-ui/icons/LocationOnRounded";
 import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
 import Jobdetail from "../Jobdetail";
+import fetchJobDetail from '../../actions/fetchJobDetail';
 const styles = {
   box: {
     margin: "5rem 5rem"
@@ -41,6 +42,11 @@ const styles = {
   }
 };
 class Jobdetails extends React.Component {
+  constructor(props) {
+    super(props);
+    let id = this.props.match.params.id;
+    this.props.fetchJobDetail(id)
+  }
   /*state = {
     job: {},
     loading: true
@@ -58,27 +64,21 @@ class Jobdetails extends React.Component {
       });
   }*/
   render() {
+    let job = this.props.jobDetail;
     return (
       <div>
-        {this.props.jobdetail.map(job => {
-          return (
-            <Jobdetail
-              id={job.id}
-              logo={job.logo}
-              field={job.field}
-              company={job.company}
-              people={job.people}
-              country={job.country}
-              day={job.day}
-              OT={job.OT}
-              address={job.address}
-              reason={job.reason}
-              description={job.description}
-              skill={job.skill}
-              why={job.why}
-            ></Jobdetail>
-          );
-        })}
+        {Object.keys(job).length > 0 ? (
+          <Jobdetail
+            id={job.id}
+            title={job.name}
+            levels={job.levels}
+            categories={job.categories}
+            company={job.company}
+            address={job.locations}
+            description={job.contents}
+            date={job.publication_date}
+          ></Jobdetail>
+        ) : null}
       </div>
     );
   }
@@ -86,10 +86,17 @@ class Jobdetails extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    jobdetail: state.jobs
+    jobDetail: state.job.jobDetail,
+    error: state.job.error,
+    loading: state.job.loading
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchJobDetail: id => dispatch(fetchJobDetail(id))
   };
 };
 export default compose(
   withStyles(styles, { name: "Jobdetail" }),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, mapDispatchToProps)
 )(Jobdetails);

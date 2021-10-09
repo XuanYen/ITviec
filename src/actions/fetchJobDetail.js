@@ -4,17 +4,17 @@ import {
     FETCH_JOB_DETAIL_FAILED
 } from '../constants/ActionTypes';
 
-import { fetchJobDetailSerivce } from '../services';
-export default () => {
+import { fetchJobDetailService } from '../services';
+export default (id) => {
     return dispatch => {
-        dispatch(fetchJobDetail());
-        fetchJobDetailSerivce(id)
+        dispatch(fetchJobDetail(id));
+        fetchJobDetailService(id)
             .then(jobDetail => dispatch(fetchJobDetailSuccess(jobDetail)))
             .catch(error => dispatch(fetchJobDetailFailed(error)))
     }
 }
 
-const fetchJobDetail = () => ({
+const fetchJobDetail = (id) => ({
     type: FETCH_JOB_DETAIL
 })
 

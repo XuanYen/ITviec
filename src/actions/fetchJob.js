@@ -5,16 +5,16 @@ import {
 } from '../constants/ActionTypes';
 
 import { fetchJobSerivce } from '../services';
-export default () => {
+export default (page) => {
     return dispatch => {
-        dispatch(fetchJob());
-        fetchJobSerivce()
+        dispatch(fetchJob(page));
+        fetchJobSerivce(page)
             .then(listJobs => dispatch(fetchJobSuccess(listJobs)))
             .catch(error => dispatch(fetchJobFailed(error)))
     }
 }
 
-const fetchJob = () => ({
+const fetchJob = (page) => ({
     type: FETCH_JOB
 })
 

@@ -1,16 +1,13 @@
 import status from "./status";
-import jobs from "./jobs";
 import job from "./job";
 import acc from "./acc";
+import company from "./company";
 import { combineReducers } from "redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-  status: status,
-  jobs: jobs,
-  job: job,
-  acc: acc
+  status, job, company, acc
 });
 const composeEnhancers =
   typeof window === 'object' &&

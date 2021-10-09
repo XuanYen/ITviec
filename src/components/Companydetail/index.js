@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import PeopleIcon from "@material-ui/icons/People";
@@ -18,9 +19,16 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-  Button
+  Button,
+  ButtonGroup
 } from "@material-ui/core";
-
+import fetchCompanyDetail from '../../actions/fetchCompanyDetail';
+import { Carousel } from 'react-responsive-carousel';
+import { Description } from "@material-ui/icons";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const styles = {
   root: {
     maxWidth: 200,
@@ -47,52 +55,18 @@ const styles = {
 };
 
 class Companydetail extends React.Component {
-  state = {
-    company: {},
-    loading: true
-  };
-
-  componentDidMount() {
-    axios
-      .get(
-        `http://5e397cb4aad22200149629c5.mockapi.io/api/jobs/companies/${this.props.match.params.idcompany}`
-      )
-      .then(res => {
-        this.setState({
-          company: res.data,
-          loading: false
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  constructor(props) {
+    super(props);
+    let id = this.props.match.params.id;
+    this.props.fetchCompanyDetail(id);
   }
-
   render() {
-    const {
-      id,
-      company,
-      quote,
-      logo,
-      banner,
-      address,
-      people,
-      country,
-      day,
-      OT,
-      title,
-      description,
-      skills,
-      reasons,
-      benefits,
-      location,
-      rating,
-      activeTab
-    } = this.state.company;
-
+    let {
+      id, size, name, locations, industries, refs, description
+    } = this.props.companyDetail;
     return (
       <div>
-        {this.state.loading ? (
+        {this.props.loading === true ? (
           <Box
             display="flex"
             justifyContent="center"
@@ -103,150 +77,109 @@ class Companydetail extends React.Component {
             <CircularProgress size={40} />
           </Box>
         ) : (
-          <Box>
-            <Box width="100vw">
-              <CardMedia
-                component="img"
-                alt="Banner"
-                image={banner}
-                title="Banner"
-                width="100%"
-              />
-            </Box>
-            <Box mx="auto" width="80vw">
-              <Box className={this.props.classes.header}>
-                <Box>
-                  <Typography variant="h6">{company}</Typography>
-                  <CardContent
-                    className={this.props.classes.root}
-                    style={{ padding: "10px" }}
-                  >
-                    <CardMedia
-                      component="img"
-                      alt="Contemplative Reptile"
-                      height="140"
-                      image={logo}
-                      title="Contemplative Reptile"
-                    />
-                  </CardContent>
+          <div>
+            {Object.keys(this.props.companyDetail).length > 0 ? (
+              <Box>
+                <Box mx="auto" width="80vw">
+                  <Box className={this.props.classes.header}>
+                    <Box>
+                      <Typography variant="h6">{name}</Typography>
+                      {
+                        refs ? (
+                          Object.keys(refs).length > 0 ? (
+                            <CardContent
+                              className={this.props.classes.root}
+                              style={{ padding: "10px" }}
+                            >
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                width="500"
+                                image={refs.logo_image}
+                                title="Contemplative Reptile"
+                              />
+                            </CardContent>
+                          ) : null
+                        ) : null
+                      }
+                    </Box>
+                    <Box>
+                      {
+                        locations.length > 0 ? (
+                          <ListItem>
+                            <ListItemIcon>
+                              <LocationOnRoundedIcon />
+                            </ListItemIcon>
+                            <ListItemText>{locations[0].name}</ListItemText>
+                          </ListItem>
+                        ) : null
+                      }
+                      <ListItem>
+                        <ListItemIcon>
+                          <PeopleIcon />
+                        </ListItemIcon>
+                        <ListItemText>{size.name}</ListItemText>
+                      </ListItem>
+                      <ListItem>
+                        {
+                          industries.length > 0 ? (
+                            <ButtonGroup variant="text" aria-label="text button group">
+                              {
+                                industries.map((ele, index) => <Button key={index}>{ele.name}</Button>)
+                              }
+                            </ButtonGroup>
+                          ) : null
+                        }
+                      </ListItem>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                        >
+                          <Typography>About Company</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            {description}
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </Box>
+                  </Box>
                 </Box>
-                <Box>
-                  <ListItem>
-                    <ListItemIcon>
-                      <LocationOnRoundedIcon />
-                    </ListItemIcon>
-                    <ListItemText>{address}</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <PeopleIcon />
-                    </ListItemIcon>
-                    <ListItemText>{people}</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <EditLocationIcon />
-                    </ListItemIcon>
-                    <ListItemText>{country}</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <DateRangeIcon />
-                    </ListItemIcon>
-                    <ListItemText>{day}</ListItemText>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <ScheduleIcon />
-                    </ListItemIcon>
-                    <ListItemText>{OT}</ListItemText>
-                  </ListItem>
+                <Box width="80vw" mx="auto">
+                  {
+                    Object.keys(refs).length > 0 ? (
+                      <Carousel>
+                        <img src={refs.f1_image} alt="Banner 1" />
+                        <img src={refs.f2_image} alt="Banner 2" />
+                        <img src={refs.f3_image} alt="Banner 3" />
+                      </Carousel>
+                    ) : null
+                  }
                 </Box>
               </Box>
-            </Box>
-            <Box mx="auto" width="80vw">
-              {
-                <Tabs>
-                  <TabList>
-                    <Tab>Overview</Tab>
-                    <Tab>Reviews</Tab>
-                  </TabList>
-
-                  <TabPanel>
-                    <Typography variant="h6">{title}</Typography>
-                    <Box>
-                      {description.map(describe => {
-                        return (
-                          <ListItem>
-                            <ListItemIcon>
-                              <ChevronRightRoundedIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>{describe}</ListItemText>
-                          </ListItem>
-                        );
-                      })}
-                    </Box>
-                    <Typography variant="h6">Our Key Skills</Typography>
-                    <Box>
-                      {skills.map(skill => (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="primary"
-                          className={this.props.classes.button}
-                        >
-                          {skill}
-                        </Button>
-                      ))}
-                    </Box>
-                    <Typography variant="h5">
-                      Why You'll Love Working Here
-                    </Typography>
-                    <Box>
-                      {reasons.map(reason => {
-                        return (
-                          <ListItem>
-                            <ListItemIcon>
-                              <ChevronRightRoundedIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>{reason}</ListItemText>
-                          </ListItem>
-                        );
-                      })}
-                    </Box>
-                    <Typography variant="h6">Benefits</Typography>
-                    <Box>
-                      {benefits.map(benefit => {
-                        return (
-                          <ListItem>
-                            <ListItemIcon>
-                              <ChevronRightRoundedIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>{benefit}</ListItemText>
-                          </ListItem>
-                        );
-                      })}
-                    </Box>
-                    <Typography variant="h6">Location</Typography>
-                    <Box>
-                      <CardMedia
-                        component="iframe"
-                        alt="Banner"
-                        src={location}
-                        title="Banner"
-                        width="600"
-                        height="450"
-                      />
-                    </Box>
-                  </TabPanel>
-                  <TabPanel>No reviews</TabPanel>
-                </Tabs>
-              }
-            </Box>
-          </Box>
+            ) : null}
+          </div>
         )}
       </div>
     );
   }
 }
-export default withStyles(styles)(Companydetail);
+const mapStateToProps = state => {
+  return {
+    loading: state.company.loading,
+    error: state.company.error,
+    companyDetail: state.company.companyDetail
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchCompanyDetail: id => dispatch(fetchCompanyDetail(id))
+  }
+}
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(Companydetail);

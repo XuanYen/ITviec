@@ -1,56 +1,56 @@
 import { AccessTimeOutlined } from '@material-ui/icons';
 import {
-    FETCH_JOB,
-    FETCH_JOB_SUCCESS,
-    FETCH_JOB_FAILED,
-    FETCH_JOB_DETAIL,
-    FETCH_JOB_DETAIL_SUCCESS,
-    FETCH_JOB_DETAIL_FAILED
+    FETCH_COMPANY,
+    FETCH_COMPANY_SUCCESS,
+    FETCH_COMPANY_FAILED,
+    FETCH_COMPANY_DETAIL,
+    FETCH_COMPANY_DETAIL_SUCCESS,
+    FETCH_COMPANY_DETAIL_FAILED
 } from '../constants/ActionTypes'
 
 const initialState = {
     loading: false,
     error: null,
-    listJobs: {},
-    jobDetail: {}
+    listCompanies: {},
+    companyDetail: {}
 }
 
 var rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_JOB:
+        case FETCH_COMPANY:
             return {
                 loading: true,
-                listJobs: {},
+                listCompanies: {},
                 error: null
             };
-        case FETCH_JOB_SUCCESS:
+        case FETCH_COMPANY_SUCCESS:
             return {
                 loading: false,
-                listJobs: action.payload.listJobs,
+                listCompanies: action.payload.listCompanies,
                 error: null
             };
-        case FETCH_JOB_FAILED:
+        case FETCH_COMPANY_FAILED:
             return {
                 loading: false,
-                listJobs: {},
+                listCompanies: {},
                 error: action.payload.error
             }
-        case FETCH_JOB_DETAIL:
+        case FETCH_COMPANY_DETAIL:
             return {
                 loading: true,
-                jobDetail: {},
+                companyDetail: {},
                 error: null
             };
-        case FETCH_JOB_DETAIL_SUCCESS:
+        case FETCH_COMPANY_DETAIL_SUCCESS:
             return {
                 loading: false,
-                jobDetail: action.payload.jobDetail,
+                companyDetail: action.payload.companyDetail,
                 error: null
             };
-        case FETCH_JOB_DETAIL_FAILED:
+        case FETCH_COMPANY_DETAIL_FAILED:
             return {
                 loading: false,
-                jobDetail: {},
+                companyDetail: {},
                 error: action.payload.error
             }
         default:

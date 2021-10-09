@@ -16,7 +16,6 @@ import {
   Button
 } from "@material-ui/core";
 import { connect } from "react-redux";
-import * as actions from "../../actions";
 import compose from "recompose/compose";
 import PeopleIcon from "@material-ui/icons/People";
 import EditLocationIcon from "@material-ui/icons/EditLocation";
@@ -58,19 +57,14 @@ class Jobdetail extends React.Component {
   }*/
   render() {
     const {
+      id,
       title,
-      logo,
-      field,
+      levels,
+      categories,
       company,
-      people,
-      country,
-      day,
-      OT,
       address,
-      reason,
       description,
-      skill,
-      why
+      date
     } = this.props;
     return (
       <div>
@@ -90,57 +84,60 @@ class Jobdetail extends React.Component {
             spacing={3}
             container
             direction="row"
-            justify="center"
             alignItems="flex-start"
           >
             <Grid item xs={4}>
-              <Card>
-                <CardActionArea className={this.props.classes.root}>
-                  <CardMedia
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="140"
-                    image={logo}
-                    title="Contemplative Reptile"
-                  />
-                </CardActionArea>
+              <Card mb={5}>
                 <CardContent>
                   <Typography gutterBottom variant="h6">
-                    {company}
+                    {company.name}
                   </Typography>
                   <Box>
                     <ListItem>
                       <ListItemIcon>
                         <PeopleIcon />
                       </ListItemIcon>
-                      <ListItemText>{people}</ListItemText>
+                      <ListItemText>{date}</ListItemText>
                     </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <EditLocationIcon />
-                      </ListItemIcon>
-                      <ListItemText>{country}</ListItemText>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <DateRangeIcon />
-                      </ListItemIcon>
-                      <ListItemText>{day}</ListItemText>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <ScheduleIcon />
-                      </ListItemIcon>
-                      <ListItemText>{OT}</ListItemText>
-                    </ListItem>
+                    {
+                      address.length > 0 ? (
+                        <ListItem>
+                          <ListItemIcon>
+                            <EditLocationIcon />
+                          </ListItemIcon>
+                          <ListItemText>{address[0].name}</ListItemText>
+                        </ListItem>
+                      ) : null
+                    }
+                    {
+                      categories.length > 0 ? (
+                        <ListItem>
+                          <ListItemIcon>
+                            <DateRangeIcon />
+                          </ListItemIcon>
+                          <ListItemText>{categories[0].name}</ListItemText>
+                        </ListItem>
+                      ) : null
+                    }
+                    {
+                      levels.length > 0 ? (
+                        <ListItem>
+                          <ListItemIcon>
+                            <ScheduleIcon />
+                          </ListItemIcon>
+                          <ListItemText>{levels[0].name}</ListItemText>
+                        </ListItem>
+                      ) : null
+                    }
                   </Box>
                 </CardContent>
               </Card>
+              <img src='../../hiring.png' alt='Nothing' width="300px" />
             </Grid>
             <Grid item xs={8}>
               <Box>
                 <Typography variant="h5">{title}</Typography>
-                <Box>
+                {/* <Box>
                   {field.map(f => {
                     return <Button variant="outlined">{f}</Button>;
                   })}
@@ -156,7 +153,7 @@ class Jobdetail extends React.Component {
                     <LocationOnRoundedIcon />
                   </ListItemIcon>
                   <ListItemText>{address}</ListItemText>
-                </ListItem>
+                </ListItem> */}
                 <Button
                   variant="contained"
                   color="secondary"
@@ -165,62 +162,10 @@ class Jobdetail extends React.Component {
                   Apply Now
                 </Button>
               </Box>
-              <Box>
+              <Box textAlign='left'>
+                <Typography variant="h5">The Job description</Typography>
                 <Box>
-                  <Typography variant="h5">Top 3 Reasons To Join Us</Typography>
-                  {reason.map(r => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <ChevronRightRoundedIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{r}</ListItemText>
-                      </ListItem>
-                    );
-                  })}
-                </Box>
-                <Box>
-                  <Typography variant="h5">The Job description</Typography>
-                  {description.map(describe => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <ChevronRightRoundedIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{describe}</ListItemText>
-                      </ListItem>
-                    );
-                  })}
-                </Box>
-                <Box>
-                  <Typography variant="h5">
-                    Your Skills and Experience
-                  </Typography>
-                  {skill.map(s => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <ChevronRightRoundedIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{s}</ListItemText>
-                      </ListItem>
-                    );
-                  })}
-                </Box>
-                <Box>
-                  <Typography variant="h5">
-                    Why You'll Love Working Here
-                  </Typography>
-                  {why.map(w => {
-                    return (
-                      <ListItem>
-                        <ListItemIcon>
-                          <ChevronRightRoundedIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText>{w}</ListItemText>
-                      </ListItem>
-                    );
-                  })}
+                  <div dangerouslySetInnerHTML={{ __html: description }} />
                 </Box>
               </Box>
             </Grid>
@@ -231,13 +176,7 @@ class Jobdetail extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    jobdetail: state.jobs
-  };
-};
 export default compose(
   withStyles(styles, { name: "Jobdetail" }),
-  connect(mapStateToProps, null)
+  connect(null, null)
 )(Jobdetail);
