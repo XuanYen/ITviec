@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import { store } from "./reducers/store";
 import Home from "./components/Home";
 import Account from "./components/Account";
+import CV from './components/CV';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/company/:id" component={Companydetail} />
           <Route path="/signin" component={Signin} />
           <Route path="/account" component={Account} />
+          <Route path="/cv" component={CV} />
           <Footers />
         </div>
       </Provider>

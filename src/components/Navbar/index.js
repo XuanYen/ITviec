@@ -34,6 +34,11 @@ function Navbar(props) {
                 Companies
               </Link>
             </Button>
+            <Button>
+              <Link style={style} to="/cv">
+                Create CV
+              </Link>
+            </Button>
             {props.issignin ? (
               <Button>
                 <Link style={style} to="/account">
