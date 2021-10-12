@@ -27,7 +27,10 @@ const useStyles = makeStyles({
       color: "black",
       textDecoration: "unset"
     }
-  }
+  },
+  rating: {
+    textAlign: 'center'
+  },
 });
 
 export default function Company(props) {
@@ -53,22 +56,20 @@ export default function Company(props) {
           </CardActionArea>
         </Grid>
         <Grid item xs={8}>
-          <CardActions>
-            <CardContent>
-              <div className={classes.rating}>
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={5}
-                  precision={1}
-                  readOnly
-                />
-              </div>
-              <Typography variant="body2" color="textSecondary" component="p">
-                <FormatQuoteIcon />
-                {description}
-              </Typography>
-            </CardContent>
-          </CardActions>
+          <CardContent>
+            <div className={classes.rating}>
+              <Rating
+                name="half-rating-read"
+                defaultValue={5}
+                precision={1}
+                readOnly
+              />
+            </div>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <FormatQuoteIcon />
+              {description}
+            </Typography>
+          </CardContent>
         </Grid>
       </Grid>
     </Box>

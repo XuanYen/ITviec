@@ -18,11 +18,12 @@ function Navbar(props) {
         style={{ backgroundColor: "black" }}
       >
         <Toolbar>
-          <img
-            style={{ height: "50px" }}
-            src="https://itviec.com/assets/logo-itviec-65afac80e92140efa459545bc1c042ff4275f8f197535f147ed7614c2000ab0f.png"
-          />
-
+          <Link style={style} to="/">
+            <img
+              style={{ height: "50px" }}
+              src={window.location.origin + "/job.png"}
+            />
+          </Link>
           <Box ml="auto">
             <Button color="inherit">
               <Link style={style} to="/jobs">
@@ -39,7 +40,7 @@ function Navbar(props) {
                 Create CV
               </Link>
             </Button>
-            {props.issignin ? (
+            {/* {props.issignin ? (
               <Button>
                 <Link style={style} to="/account">
                   <AccountCircleIcon />
@@ -52,7 +53,7 @@ function Navbar(props) {
                   Sign in
                 </Link>
               </Button>
-            )}
+            )} */}
           </Box>
         </Toolbar>
       </AppBar>

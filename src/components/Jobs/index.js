@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import fetchJob from '../../actions/fetchJob';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
+import { styled } from '@mui/material/styles';
 const styles = {
   post: {
     textDecoration: "none",
@@ -47,6 +48,11 @@ class Jobs extends React.Component {
   }
   render() {
     const { listJobs, loading } = this.props;
+    const Div = styled('div')(({ theme }) => ({
+      ...theme.typography.button,
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(1),
+    }));
     return (
       <Box mx="auto">
         {
@@ -59,18 +65,7 @@ class Jobs extends React.Component {
             </Box>
           ) : (
             <Box>
-              <Link to="/postjob" className={this.props.classes.post}>
-                <AccessibilityNewIcon fontSize="large" />
-                Are you hire recruitment? Post job here !!!
-                <Box>
-                  <Button variant="contained" color="primary">
-                    Post job
-                  </Button>
-                </Box>
-              </Link>
-              <Typography variant="h5">
-                IT jobs in Vietnam for you
-              </Typography>
+              <Div>{" You can explore the best paying jobs and other more specific career rankings."}</Div>
               <Box>
                 {listJobs ? listJobs.map(job => {
                   let tempDescription = job.contents ? (job.contents.match(/<strong>.*?<strong>/g)) || (job.contents.match(/<span>.*?<span>/g)) : [];

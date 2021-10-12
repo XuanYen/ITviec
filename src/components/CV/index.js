@@ -213,16 +213,18 @@ const EducationSection = props => {
             <TextField value={major} onInput={(e) => setMajor(e.target.value)} label="Major" variant="filled" />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                    label='Start'
                     value={timeStart}
-                    format="dd/MM/yyyy"
+                    views={['day', 'month', 'year']}
                     onChange={(newValue) => {
                         setTimeStart(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <DatePicker
+                    label='End'
                     value={timeEnd}
-                    format="dd/MM/yyyy"
+                    views={['day', 'month', 'year']}
                     onChange={(newValue) => {
                         setTimeEnd(newValue);
                     }}
@@ -273,16 +275,18 @@ const ExperienceSection = props => {
             <TextField value={position} onInput={(e) => setPosition(e.target.value)} label="Position" variant="filled" />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                    label='Start'
                     value={timeJobStart}
-                    format="dd/MM/yyyy"
+                    views={['day', 'month', 'year']}
                     onChange={(newValue) => {
                         setTimeJobStart(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <DatePicker
+                    label='End'
                     value={timeJobEnd}
-                    format="dd/MM/yyyy"
+                    views={['day', 'month', 'year']}
                     onChange={(newValue) => {
                         setTimeJobEnd(newValue);
                     }}

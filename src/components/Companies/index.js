@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Pagination from '@mui/material/Pagination';
 import fetchCompany from '../../actions/fetchCompany';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { styled } from '@mui/material/styles';
 class Companies extends React.Component {
   state = {
     page: 1
@@ -18,6 +18,11 @@ class Companies extends React.Component {
   }
   render() {
     const { loading, listCompanies } = this.props;
+    const Div = styled('div')(({ theme }) => ({
+      ...theme.typography.button,
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(1),
+    }));
     return (
       <Box>
         {
@@ -30,7 +35,8 @@ class Companies extends React.Component {
             </Box>
           ) : (
             <Box>
-              <Box mb={5}>
+              <Div>{"Top Companies Hiring for Recruiter Jobs."}</Div>
+              <Box my={5}>
                 {listCompanies ? listCompanies.map(company => {
                   const { id, name, locations, industries, description, refs } = company;
                   return (

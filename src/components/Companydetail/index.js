@@ -61,9 +61,7 @@ class Companydetail extends React.Component {
     this.props.fetchCompanyDetail(id);
   }
   render() {
-    let {
-      id, size, name, locations, industries, refs, description
-    } = this.props.companyDetail;
+    let { id, size, name, locations, industries, refs, description } = this.props.companyDetail;
     return (
       <div>
         {this.props.loading === true ? (
