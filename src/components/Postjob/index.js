@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, withStyles, Typography } from "@material-ui/core";
+import { Box, Button, withStyles } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 import compose from "recompose/compose";

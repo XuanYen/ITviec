@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Icon from '@mui/material/Icon';
-import Button from '@mui/material/Button';
+import { TextField, Box, Typography, Icon, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import moment from 'moment';
 import useDebounce from './useDebounce';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SaveIcon from '@mui/icons-material/Save';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -59,10 +50,10 @@ function CV() {
         setHide(true);
     }
     const educationChildren = [], experienceChildren = [];
-    for (var i = 0; i < numChildrenEducation; i += 1) {
+    for (let i = 0; i < numChildrenEducation; i += 1) {
         educationChildren.push(<EducationSection useDebounce={useDebounce} education={education} setEducation={setEducation} key={i} number={i} />);
     };
-    for (var i = 0; i < numChildrenExperience; i += 1) {
+    for (let i = 0; i < numChildrenExperience; i += 1) {
         experienceChildren.push(<ExperienceSection useDebounce={useDebounce} experience={experience} setExperience={setExperience} key={i} number={i} />);
     };
     const Div = styled('div')(({ theme }) => ({
@@ -145,7 +136,7 @@ function CV() {
             </Box>
             {show && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
-                    <img width='300px' src='./candidate.png' />
+                    <img width='300px' src='./candidate.png' alt='job' />
                     <PDFViewer width='50%'>
                         <PdfDocument data={info} />
                     </PDFViewer>
@@ -185,27 +176,28 @@ const EducationSection = props => {
     const debouncedMajor = useDebounce(major, 2000);
     const debouncedTimeStart = useDebounce(timeStart, 2000);
     const debouncedTimeEnd = useDebounce(timeEnd, 2000);
+
     useEffect(() => {
+        const addSchool = (school, major, timeStart, timeEnd) => {
+            let updateEducation = {
+                id: number,
+                school,
+                major,
+                timeStart: moment(timeStart).format("DD/MM/YYYY"),
+                timeEnd: moment(timeEnd).format("DD/MM/YYYY")
+            }
+            let newEducation = [...education];
+            let found = newEducation.findIndex(ele => ele.id === number);
+            console.log(newEducation, number, found)
+            if (found !== -1) {
+                newEducation[found] = updateEducation;
+            } else {
+                newEducation.push(updateEducation)
+            }
+            setEducation(newEducation)
+        }
         addSchool(debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd)
-    }, [debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd]);
-    const addSchool = (school, major, timeStart, timeEnd) => {
-        let updateEducation = {
-            id: number,
-            school,
-            major,
-            timeStart: moment(timeStart).format("DD/MM/YYYY"),
-            timeEnd: moment(timeEnd).format("DD/MM/YYYY")
-        }
-        let newEducation = [...education];
-        let found = newEducation.findIndex(ele => ele.id == number);
-        console.log(newEducation, number, found)
-        if (found !== -1) {
-            newEducation[found] = updateEducation;
-        } else {
-            newEducation.push(updateEducation)
-        }
-        setEducation(newEducation)
-    }
+    }, [debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd, education, number, setEducation]);
     return (
         <Box id={`education${props.number}`} key={number}>
             <Typography variant="h6">School {number + 1}</Typography>
@@ -248,26 +240,26 @@ const ExperienceSection = props => {
     const debouncedTimeJobEnd = useDebounce(timeJobEnd, 2000);
     const debouncedDescription = useDebounce(description, 2000);
     useEffect(() => {
-        addExperience(debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription);
-    }, [debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription])
-    const addExperience = (company, position, timeJobStart, timeJobEnd, description) => {
-        let updateExperience = {
-            id: number,
-            company,
-            position,
-            timeJobStart,
-            timeJobEnd,
-            description
-        };
-        let newExperience = [...experience];
-        let found = newExperience.findIndex(ele => ele.id === number);
-        if (found !== -1) {
-            newExperience[found] = updateExperience;
-        } else {
-            newExperience.push(updateExperience);
+        const addExperience = (company, position, timeJobStart, timeJobEnd, description) => {
+            let updateExperience = {
+                id: number,
+                company,
+                position,
+                timeJobStart,
+                timeJobEnd,
+                description
+            };
+            let newExperience = [...experience];
+            let found = newExperience.findIndex(ele => ele.id === number);
+            if (found !== -1) {
+                newExperience[found] = updateExperience;
+            } else {
+                newExperience.push(updateExperience);
+            }
+            setExperience(newExperience)
         }
-        setExperience(newExperience)
-    }
+        addExperience(debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription);
+    }, [debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription, experience, number, setExperience])
     return (
         <Box id={`experience${props.number}`} key={props.number}>
             <Typography variant="h6">Experience {props.number + 1}</Typography>

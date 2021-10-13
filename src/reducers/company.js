@@ -1,4 +1,3 @@
-import { AccessTimeOutlined } from '@material-ui/icons';
 import {
     FETCH_COMPANY,
     FETCH_COMPANY_SUCCESS,

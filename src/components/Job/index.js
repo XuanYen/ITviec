@@ -2,8 +2,6 @@ import React from "react";
 import { Box, Typography, Button } from "@material-ui/core";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
@@ -40,9 +38,6 @@ const Job = (props) => {
   const { id, title, field, company, description, levels, locations } = props;
   return (
     <Box display="flex" className={classes.box} boxShadow={3}>
-      {/* <Box width="30%">
-        <img alt="No logo :)" />
-      </Box> */}
       <Box className={classes.box} width="70%">
         <Typography variant="h6">
           #{id} {title}
@@ -86,6 +81,4 @@ const Job = (props) => {
     </Box>
   );
 }
-
-
 export default Job;

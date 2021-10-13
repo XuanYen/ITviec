@@ -39,14 +39,14 @@ class Signin extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.saveaccount(this.state);
-    if (this.state.name.trim() == "") {
+    if (this.state.name.trim() === "") {
       alert("Name Null. Name must be fill");
     } else if (
-      emailRegex.test(this.state.email) == false ||
-      this.state.email.trim() == ""
+      emailRegex.test(this.state.email) === false ||
+      this.state.email.trim() === ""
     ) {
       alert("invalid email");
-    } else if (this.state.password.trim() == "") {
+    } else if (this.state.password.trim() === "") {
       alert("Password Null. Password must be fill");
     } else {
       alert("Register sucessfully");
@@ -55,15 +55,15 @@ class Signin extends React.Component {
   handleSignIn = event => {
     event.preventDefault();
     if (
-      emailRegex.test(this.state.account) == false ||
-      this.state.account.trim() == ""
+      emailRegex.test(this.state.account) === false ||
+      this.state.account.trim() === ""
     ) {
       alert("invalid account");
-    } else if (this.state.pass.trim() == "") {
+    } else if (this.state.pass.trim() === "") {
       alert("Password Null. Password must be fill");
-    } else if (this.state.account != this.state.email) {
+    } else if (this.state.account !== this.state.email) {
       alert("Failed email account");
-    } else if (this.state.pass != this.state.password) {
+    } else if (this.state.pass !== this.state.password) {
       alert("Failed password account");
     } else {
       alert("Succesfully");

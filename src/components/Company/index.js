@@ -3,14 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   CardMedia,
   CardActionArea,
-  CardActions,
   Typography,
   CardContent,
   Grid,
-  Box
-} from "@material-ui/core";
+  Box,
+  Rating
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import Rating from "@material-ui/lab/Rating";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 const useStyles = makeStyles({
   root: {

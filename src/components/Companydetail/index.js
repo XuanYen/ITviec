@@ -1,34 +1,22 @@
 import React from "react";
-import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import PeopleIcon from "@material-ui/icons/People";
-import EditLocationIcon from "@material-ui/icons/EditLocation";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import LocationOnRoundedIcon from "@material-ui/icons/LocationOnRounded";
-import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
 import {
   CircularProgress,
   Box,
   CardMedia,
   CardContent,
-  withStyles,
   ListItem,
   ListItemIcon,
   ListItemText,
   Typography,
   Button,
-  ButtonGroup
-} from "@material-ui/core";
+  ButtonGroup,
+  Accordion, AccordionSummary, AccordionDetails
+} from "@mui/material";
 import fetchCompanyDetail from '../../actions/fetchCompanyDetail';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
-import { Description } from "@material-ui/icons";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ExpandMore, People, LocationOnRounded, Code } from '@mui/icons-material';
 const styles = {
   root: {
     maxWidth: 200,
@@ -37,7 +25,8 @@ const styles = {
     outline: "solid thin grey",
     "& img": {
       objectFit: "cover"
-    }
+    },
+    padding: '10px'
   },
   header: {
     textAlign: "left",
@@ -61,7 +50,7 @@ class Companydetail extends React.Component {
     this.props.fetchCompanyDetail(id);
   }
   render() {
-    let { id, size, name, locations, industries, refs, description } = this.props.companyDetail;
+    let { size, name, locations, industries, refs, description } = Object.keys(this.props.companyDetail).length > 0 ? this.props.companyDetail : { id: '', size: '', name: '', locations: [], industries: [], refs: [], description: '' };
     return (
       <div>
         {this.props.loading === true ? (
@@ -79,15 +68,14 @@ class Companydetail extends React.Component {
             {Object.keys(this.props.companyDetail).length > 0 ? (
               <Box>
                 <Box mx="auto" width="80vw">
-                  <Box className={this.props.classes.header}>
+                  <Box style={styles.header}>
                     <Box>
                       <Typography variant="h6">{name}</Typography>
                       {
                         refs ? (
                           Object.keys(refs).length > 0 ? (
                             <CardContent
-                              className={this.props.classes.root}
-                              style={{ padding: "10px" }}
+                              style={styles.root}
                             >
                               <CardMedia
                                 component="img"
@@ -106,7 +94,7 @@ class Companydetail extends React.Component {
                         locations.length > 0 ? (
                           <ListItem>
                             <ListItemIcon>
-                              <LocationOnRoundedIcon />
+                              <LocationOnRounded />
                             </ListItemIcon>
                             <ListItemText>{locations[0].name}</ListItemText>
                           </ListItem>
@@ -114,7 +102,7 @@ class Companydetail extends React.Component {
                       }
                       <ListItem>
                         <ListItemIcon>
-                          <PeopleIcon />
+                          <People />
                         </ListItemIcon>
                         <ListItemText>{size.name}</ListItemText>
                       </ListItem>
@@ -122,6 +110,7 @@ class Companydetail extends React.Component {
                         {
                           industries.length > 0 ? (
                             <ButtonGroup variant="text" aria-label="text button group">
+                              <Code />
                               {
                                 industries.map((ele, index) => <Button key={index}>{ele.name}</Button>)
                               }
@@ -131,7 +120,7 @@ class Companydetail extends React.Component {
                       </ListItem>
                       <Accordion>
                         <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
+                          expandIcon={<ExpandMore />}
                           aria-controls="panel1a-content"
                           id="panel1a-header"
                         >
@@ -177,7 +166,4 @@ const mapDispatchToProps = dispatch => {
     fetchCompanyDetail: id => dispatch(fetchCompanyDetail(id))
   }
 }
-export default compose(
-  withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps)
-)(Companydetail);
+export default connect(mapStateToProps, mapDispatchToProps)(Companydetail);

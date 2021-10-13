@@ -1,13 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Button, Box, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Box } from "@mui/material";
 import { connect } from "react-redux";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import * as actions from "../../actions";
 function Navbar(props) {
   const style = {
     textDecoration: "none",
-    color: "white"
+    color: "white",
   };
 
   return (
@@ -20,9 +18,11 @@ function Navbar(props) {
         <Toolbar>
           <Link style={style} to="/">
             <img
-              style={{ height: "50px" }}
+              style={{ height: "50px", borderRadius: '50%', marginRight: '5px', marginTop: '5px', display: 'flex', alignItems: 'center' }}
               src={window.location.origin + "/job.png"}
+              alt='Logo'
             />
+            IT JOBS
           </Link>
           <Box ml="auto">
             <Button color="inherit">

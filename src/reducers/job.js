@@ -1,18 +1,21 @@
-import { AccessTimeOutlined } from '@material-ui/icons';
 import {
     FETCH_JOB,
     FETCH_JOB_SUCCESS,
     FETCH_JOB_FAILED,
     FETCH_JOB_DETAIL,
     FETCH_JOB_DETAIL_SUCCESS,
-    FETCH_JOB_DETAIL_FAILED
+    FETCH_JOB_DETAIL_FAILED,
+    FETCH_JOB_SEARCH,
+    FETCH_JOB_SEARCH_SUCCESS,
+    FETCH_JOB_SEARCH_FAILED
 } from '../constants/ActionTypes'
 
 const initialState = {
     loading: false,
     error: null,
     listJobs: {},
-    jobDetail: {}
+    jobDetail: {},
+    listSearchJobs: {}
 }
 
 var rootReducer = (state = initialState, action) => {
@@ -51,6 +54,24 @@ var rootReducer = (state = initialState, action) => {
             return {
                 loading: false,
                 jobDetail: {},
+                error: action.payload.error
+            }
+        case FETCH_JOB_SEARCH:
+            return {
+                loading: true,
+                listSearchJobs: {},
+                error: null
+            }
+        case FETCH_JOB_SEARCH_SUCCESS:
+            return {
+                loading: false,
+                listSearchJobs: action.payload.listSearchJobs,
+                error: null
+            }
+        case FETCH_JOB_SEARCH_FAILED:
+            return {
+                loading: false,
+                listSearchJob: {},
                 error: action.payload.error
             }
         default:

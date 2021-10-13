@@ -52,7 +52,6 @@ const Jobdetail = (props) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const {
-    id,
     title,
     levels,
     categories,

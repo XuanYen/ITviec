@@ -1,17 +1,8 @@
 import React from "react";
-import { Grid, Typography, withStyles, Box } from "@material-ui/core";
+import { withStyles, Box } from "@material-ui/core";
 import Job from "../Job";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import HomeIcon from "@material-ui/icons/Home";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
-import Button from '@mui/material/Button';
 import fetchJob from '../../actions/fetchJob';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';

@@ -1,9 +1,7 @@
 import React from "react";
-import { Box, Button, withStyles, Typography } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
+import { Box, Button, withStyles, TextField } from "@material-ui/core";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
-import Signin from "../Signin";
 const styles = {
   root: {
     "& > *": {

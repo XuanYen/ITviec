@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar";
 import Jobs from "./components/Jobs";
 import Companies from "./components/Companies";
 import Signin from "./components/Signin";
-import Footers from "./components/Footers";
 import Postjob from "./components/Postjob";
 import Jobdetails from "./components/Jobdetails";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -30,7 +29,6 @@ export default function App() {
           <Route path="/signin" component={Signin} />
           <Route path="/account" component={Account} />
           <Route path="/cv" component={CV} />
-          <Footers />
         </div>
       </Provider>
     </BrowserRouter>
