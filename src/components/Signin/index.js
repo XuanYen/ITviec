@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
 import * as actions from "../../actions";
-import GoogleLogin from 'react-google-login';
 const emailRegex = RegExp(
   /^[a-zA-Z0-9_!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
@@ -129,13 +128,6 @@ class Signin extends React.Component {
                 </form>
               </TabPanel>
               <TabPanel>
-                <GoogleLogin
-                  clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                  buttonText="Login"
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle}
-                  cookiePolicy={'single_host_origin'}
-                />
                 {/* <form
                   className={this.props.classes.root}
                   noValidate
