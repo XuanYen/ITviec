@@ -170,7 +170,7 @@ const EducationSection = props => {
     const [school, setSchool] = useState('HoChiMinh University of Technology');
     const [major, setMajor] = useState('Computer Science');
     const [timeStart, setTimeStart] = useState('05/08/2017');
-    const [timeEnd, setTimeEnd] = useState('20/11/2021');
+    const [timeEnd, setTimeEnd] = useState('05/11/2021');
     const { education, number, setEducation } = props;
     const debouncedSchool = useDebounce(school, 2000);
     const debouncedMajor = useDebounce(major, 2000);
@@ -209,6 +209,7 @@ const EducationSection = props => {
                     onChange={(newValue) => {
                         setTimeStart(newValue);
                     }}
+                    format="DD/MM/YYYY"
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <DatePicker
@@ -218,6 +219,7 @@ const EducationSection = props => {
                     onChange={(newValue) => {
                         setTimeEnd(newValue);
                     }}
+                    format="DD/MM/YYYY"
                     renderInput={(params) => <TextField {...params} />}
                 />
             </LocalizationProvider>
@@ -268,6 +270,7 @@ const ExperienceSection = props => {
                     label='Start'
                     value={timeJobStart}
                     views={['day', 'month', 'year']}
+                    format="DD/MM/YYYY"
                     onChange={(newValue) => {
                         setTimeJobStart(newValue);
                     }}
@@ -280,6 +283,7 @@ const ExperienceSection = props => {
                     onChange={(newValue) => {
                         setTimeJobEnd(newValue);
                     }}
+                    format="DD/MM/YYYY"
                     renderInput={(params) => <TextField {...params} />}
                 />
             </LocalizationProvider>
