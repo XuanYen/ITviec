@@ -37,11 +37,12 @@ class Companies extends React.Component {
             <Box>
               <Div>{"Top Companies Hiring for Recruiter Jobs."}</Div>
               <Box my={5}>
-                {listCompanies ? listCompanies.map(company => {
+                {listCompanies ? listCompanies.map((company, index) => {
                   const { id, name, locations, industries, description, refs } = company;
                   return (
                     <Company
                       key={id}
+                      index={index + 1}
                       id={id}
                       name={name}
                       locations={locations}
@@ -64,9 +65,9 @@ class Companies extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    listCompanies: state.company.listCompanies.results,
-    error: state.company.error,
-    loading: state.company.loading
+    listCompanies: state.companies.listCompanies.results,
+    error: state.companies.error,
+    loading: state.companies.loading
   }
 }
 const mapDispatchToProps = dispatch => {

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import SearchIcon from '@mui/icons-material/Search';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -15,10 +16,9 @@ const Home = () => {
   const dispatch = useDispatch();
   const [level, setLevel] = useState('');
   const [company, setCompany] = useState('');
-  const listSearchJobs = useSelector((state) => state.job.listSearchJobs.results);
-  let loading = useSelector((state) => state.job.loading)
+  const listSearchJobs = useSelector((state) => state.search.listSearchJobs.results);
+  let loading = useSelector((state) => state.search.loading)
   const [show, setShow] = useState(false);
-  console.log('loading', loading)
   const handleSubmit = (e) => {
     e.preventDefault();
     let searchQuery = level ? (company ? `&level=${level}&company=${company}` : `&level=${level}`) : (company ? `&company=${company}` : '');
@@ -50,7 +50,7 @@ const Home = () => {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
-            <FormControl variant="standard" sx={{ borderRight: '1px solid #e6e6e6', width: '200px' }}>
+            <FormControl variant="standard" sx={{ width: '200px' }}>
               <InputLabel id="level-label">Levels</InputLabel>
               <Select
                 labelId="level-label"
@@ -78,7 +78,7 @@ const Home = () => {
                 <MenuItem vale={'Signify'}>Signify</MenuItem>
               </Select>
             </FormControl>
-            <Button type="submit" sx={{ color: 'white', backgroundColor: '#f8ab01' }}>Search</Button>
+            <Button type="submit" sx={{ color: 'white', backgroundColor: '#f8ab01' }} endIcon={<SearchIcon />}>Search</Button>
           </Box>
         </div>
       </Box>

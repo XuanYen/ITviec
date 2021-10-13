@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 
 export function PdfDocument(props) {
     const { data } = props;
-    console.log(data)
     return (
         <Document>
             <Page style={styles.page}>

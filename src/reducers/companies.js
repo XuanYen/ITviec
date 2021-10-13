@@ -1,33 +1,33 @@
 import {
-    FETCH_JOB_DETAIL,
-    FETCH_JOB_DETAIL_SUCCESS,
-    FETCH_JOB_DETAIL_FAILED,
+    FETCH_COMPANY,
+    FETCH_COMPANY_SUCCESS,
+    FETCH_COMPANY_FAILED,
 } from '../constants/ActionTypes'
 
 const initialState = {
     loading: false,
     error: null,
-    jobDetail: {},
+    listCompanies: {}
 }
 
 var rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_JOB_DETAIL:
+        case FETCH_COMPANY:
             return {
                 loading: true,
-                jobDetail: {},
+                listCompanies: {},
                 error: null
             };
-        case FETCH_JOB_DETAIL_SUCCESS:
+        case FETCH_COMPANY_SUCCESS:
             return {
                 loading: false,
-                jobDetail: action.payload.jobDetail,
+                listCompanies: action.payload.listCompanies,
                 error: null
             };
-        case FETCH_JOB_DETAIL_FAILED:
+        case FETCH_COMPANY_FAILED:
             return {
                 loading: false,
-                jobDetail: {},
+                listCompanies: {},
                 error: action.payload.error
             }
         default:

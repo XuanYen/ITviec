@@ -78,9 +78,7 @@ class Signin extends React.Component {
       [name]: value
     });
   };
-  responseGoogle = (response) => {
-    console.log(response);
-  }
+
   render() {
     return (
       <Box>

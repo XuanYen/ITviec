@@ -22,10 +22,8 @@ const useStyles = makeStyles({
   },
   text: {
     textAlign: "left",
-    "& a": {
-      color: "black",
-      textDecoration: "unset"
-    }
+    color: "black",
+    textDecoration: "unset"
   },
   rating: {
     textAlign: 'center'
@@ -34,25 +32,25 @@ const useStyles = makeStyles({
 
 export default function Company(props) {
   const classes = useStyles();
-  const { id, name, logo_image, description } = props;
+  const { index, id, name, logo_image, description } = props;
   return (
     <Box width="60vw" mx="auto" boxShadow={3}>
       <Grid container spacing={3} className={classes.root}>
         <Grid item xs={4}>
-          <Typography gutterBottom variant="h5" className={classes.text}>
-            <Link to={`company/${id}`}>
-              #{id} {name}
-            </Link>
-          </Typography>
-          <CardActionArea className={classes.media}>
-            <CardMedia
-              component="img"
-              alt="Contemplative Reptile"
-              image={logo_image}
-              title="Contemplative Reptile"
-              height="140"
-            />
-          </CardActionArea>
+          <Link to={`company/${id}`} className={classes.text}>
+            <Typography gutterBottom variant="h5">
+              #{index} {name}
+            </Typography>
+            <CardActionArea className={classes.media}>
+              <CardMedia
+                component="img"
+                alt="Contemplative Reptile"
+                image={logo_image}
+                title="Contemplative Reptile"
+                height="140"
+              />
+            </CardActionArea>
+          </Link>
         </Grid>
         <Grid item xs={8}>
           <CardContent>

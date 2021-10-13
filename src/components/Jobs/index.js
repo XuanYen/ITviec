@@ -88,9 +88,9 @@ class Jobs extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    listJobs: state.job.listJobs.results,
-    error: state.job.error,
-    loading: state.job.loading
+    listJobs: state.jobs.listJobs.results,
+    error: state.jobs.error,
+    loading: state.jobs.loading
   };
 };
 const mapDispatchToProps = dispatch => {

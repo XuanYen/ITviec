@@ -19,8 +19,9 @@ function CV() {
     const [name, setName] = useState('XUAN YEN');
     const [address, setAddress] = useState('KTX Bach Khoa 497 Hoa Hao Q10 TP HCM');
     const [phone, setPhone] = useState('0787898565');
-    const [email, setEmail] = useState('0787898565');
+    const [email, setEmail] = useState('xy@gmail.com');
     const [website, setWebsite] = useState('xyen.github.com');
+    const [errorText, setErrorText] = useState({})
     const [education, setEducation] = useState([{
         id: 0,
         school: '',
@@ -49,18 +50,39 @@ function CV() {
         setInfo(info);
         setHide(true);
     }
-    const educationChildren = [], experienceChildren = [];
-    for (let i = 0; i < numChildrenEducation; i += 1) {
-        educationChildren.push(<EducationSection useDebounce={useDebounce} education={education} setEducation={setEducation} key={i} number={i} />);
-    };
-    for (let i = 0; i < numChildrenExperience; i += 1) {
-        experienceChildren.push(<ExperienceSection useDebounce={useDebounce} experience={experience} setExperience={setExperience} key={i} number={i} />);
-    };
     const Div = styled('div')(({ theme }) => ({
         ...theme.typography.button,
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(1),
     }));
+    const validateEmail = (email) => {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+    const handleValidate = (e, attribute, setAttribute) => {
+        let { value } = e.target;
+        let newErrorText = { ...errorText }
+        if (!value) {
+            newErrorText[attribute] = `${attribute} is require`
+        } else if (attribute === 'email' && !validateEmail(value)) {
+            newErrorText[attribute] = `Email is invalid`
+        } else if (attribute === 'phone' && value.length > 11) {
+            newErrorText[attribute] = `Phone is invalid. Minimum 11 numbers.`
+        }
+        else {
+            newErrorText[attribute] = '';
+            setAttribute(value);
+        }
+        setErrorText(newErrorText)
+    }
+
+    const educationChildren = [], experienceChildren = [];
+    for (let i = 0; i < numChildrenEducation; i += 1) {
+        educationChildren.push(<EducationSection useDebounce={useDebounce} errorText={errorText} handleValidate={handleValidate} education={education} setEducation={setEducation} key={i} number={i} />);
+    };
+    for (let i = 0; i < numChildrenExperience; i += 1) {
+        experienceChildren.push(<ExperienceSection useDebounce={useDebounce} errorText={errorText} handleValidate={handleValidate} experience={experience} setExperience={setExperience} key={i} number={i} />);
+    };
     return (
         <Box>
             <Div>{"Build Your New Resume! Make a perfect resume in 2021 and get your dream job using the free resume."}</Div>
@@ -83,11 +105,11 @@ function CV() {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Box>
-                                <TextField id="name" value={name} onInput={e => setName(e.target.value)} label="Name" variant="filled" />
-                                <TextField id="address" label="Address" variant="filled" value={address} onInput={e => setAddress(e.target.value)} />
-                                <TextField id="phone" label="Phone" variant="filled" value={phone} onInput={e => setPhone(e.target.value)} />
-                                <TextField id="email" label="Email" variant="filled" value={email} onInput={e => setEmail(e.target.value)} />
-                                <TextField id="website" label="Website" variant="filled" value={website} onInput={e => setWebsite(e.target.value)} />
+                                <TextField id="name" error={errorText.name ? true : false} helperText={errorText.name} value={name} required onInput={e => handleValidate(e, 'name', setName)} label="Name" variant="filled" />
+                                <TextField id="address" error={errorText.addres ? true : false} helperText={errorText.address} label="Address" required variant="filled" value={address} onInput={e => handleValidate(e, 'address', setAddress)} />
+                                <TextField id="phone" error={errorText.phone ? true : false} helperText={errorText.phone} label="Phone" required type='phone' variant="filled" value={phone} onInput={e => handleValidate(e, 'phone', setPhone)} />
+                                <TextField id="email" error={errorText.email ? true : false} helperText={errorText.email} label="Email" type='email' variant="filled" required value={email} onInput={e => handleValidate(e, 'email', setEmail)} />
+                                <TextField id="website" error={errorText.website ? true : false} helperText={errorText.website} label="Website" required variant="filled" value={website} onInput={e => handleValidate(e, 'website', setWebsite)} />
                             </Box>
                         </AccordionDetails>
                     </Accordion>
@@ -136,10 +158,12 @@ function CV() {
             </Box>
             {show && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
-                    <img width='300px' src='./candidate.png' alt='job' />
-                    <PDFViewer width='50%'>
-                        <PdfDocument data={info} />
-                    </PDFViewer>
+                    <img width='300px' style={{ marginRight: '20px' }} src='./candidate.png' alt='job' />
+                    <div>
+                        <PDFViewer width="800" height="600" >
+                            <PdfDocument data={info} />
+                        </PDFViewer>
+                    </div>
                     <PDFDownloadLink
                         document={<PdfDocument data={info} />}
                         fileName="cv.pdf"
@@ -171,7 +195,7 @@ const EducationSection = props => {
     const [major, setMajor] = useState('Computer Science');
     const [timeStart, setTimeStart] = useState('05/08/2017');
     const [timeEnd, setTimeEnd] = useState('05/11/2021');
-    const { education, number, setEducation } = props;
+    const { education, number, setEducation, handleValidate, errorText } = props;
     const debouncedSchool = useDebounce(school, 2000);
     const debouncedMajor = useDebounce(major, 2000);
     const debouncedTimeStart = useDebounce(timeStart, 2000);
@@ -199,8 +223,8 @@ const EducationSection = props => {
     return (
         <Box id={`education${props.number}`} key={number}>
             <Typography variant="h6">School {number + 1}</Typography>
-            <TextField value={school} onInput={(e) => setSchool(e.target.value)} label="School" variant="filled" />
-            <TextField value={major} onInput={(e) => setMajor(e.target.value)} label="Major" variant="filled" />
+            <TextField value={school} error={errorText[`school${number}`] ? true : false} helperText={errorText[`school${number}`]} required onInput={e => handleValidate(e, `school${number}`, setSchool)} label="School" variant="filled" />
+            <TextField value={major} error={errorText[`major${number}`] ? true : false} helperText={errorText[`major${number}`]} required onInput={e => handleValidate(e, `major${number}`, setMajor)} label="Major" variant="filled" />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label='Start'
@@ -233,7 +257,7 @@ const ExperienceSection = props => {
     const [timeJobStart, setTimeJobStart] = useState('03/08/2020');
     const [timeJobEnd, setTimeJobEnd] = useState('03/10/2021');
     const [description, setDescription] = useState('I am responsible for developing new product in almost stages. I have worked as BA, Developer and Tester. Additionally, I also learned more soft skills such as problem solving and critical thinking.')
-    const { experience, number, setExperience } = props;
+    const { experience, number, setExperience, errorText, handleValidate } = props;
     const debouncedCompany = useDebounce(company, 2000);
     const debouncedPosition = useDebounce(position, 2000);
     const debouncedTimeJobStart = useDebounce(timeJobStart, 2000);
@@ -263,8 +287,8 @@ const ExperienceSection = props => {
     return (
         <Box id={`experience${props.number}`} key={props.number}>
             <Typography variant="h6">Experience {props.number + 1}</Typography>
-            <TextField value={company} onInput={(e) => setCompany(e.target.value)} label="Company" variant="filled" />
-            <TextField value={position} onInput={(e) => setPosition(e.target.value)} label="Position" variant="filled" />
+            <TextField value={company} error={errorText[`company${number}`] ? true : false} helperText={errorText[`company${number}`]} required onInput={e => handleValidate(e, `company${number}`, setCompany)} label="Company" variant="filled" />
+            <TextField value={position} error={errorText[`position${number}`] ? true : false} helperText={errorText[`position${number}`]} required onInput={e => handleValidate(e, `position${number}`, setPosition)} label="Position" variant="filled" />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label='Start'
@@ -288,7 +312,7 @@ const ExperienceSection = props => {
                 />
             </LocalizationProvider>
             <Box sx={{ m: 1 }}>
-                <TextField value={description} onInput={(e) => setDescription(e.target.value)} style={{ width: '66%' }} multiline rows={5} rowsMax={5} label="Description" variant="filled" />
+                <TextField value={description} onInput={(e) => setDescription(e.target.value)} style={{ width: '66%' }} multiline rows={5} label="Description" variant="filled" />
             </Box>
         </Box>
     )
