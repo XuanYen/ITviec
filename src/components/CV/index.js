@@ -176,28 +176,26 @@ const EducationSection = props => {
     const debouncedMajor = useDebounce(major, 2000);
     const debouncedTimeStart = useDebounce(timeStart, 2000);
     const debouncedTimeEnd = useDebounce(timeEnd, 2000);
-
     useEffect(() => {
-        const addSchool = (school, major, timeStart, timeEnd) => {
-            let updateEducation = {
-                id: number,
-                school,
-                major,
-                timeStart: moment(timeStart).format("DD/MM/YYYY"),
-                timeEnd: moment(timeEnd).format("DD/MM/YYYY")
-            }
-            let newEducation = [...education];
-            let found = newEducation.findIndex(ele => ele.id === number);
-            console.log(newEducation, number, found)
-            if (found !== -1) {
-                newEducation[found] = updateEducation;
-            } else {
-                newEducation.push(updateEducation)
-            }
-            setEducation(newEducation)
-        }
         addSchool(debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd)
-    }, [debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd, education, number, setEducation]);
+    }, [debouncedSchool, debouncedMajor, debouncedTimeStart, debouncedTimeEnd]);
+    const addSchool = (school, major, timeStart, timeEnd) => {
+        let updateEducation = {
+            id: number,
+            school,
+            major,
+            timeStart: moment(timeStart).format("DD/MM/YYYY"),
+            timeEnd: moment(timeEnd).format("DD/MM/YYYY")
+        }
+        let newEducation = [...education];
+        let found = newEducation.findIndex(ele => ele.id === number);
+        if (found !== -1) {
+            newEducation[found] = updateEducation;
+        } else {
+            newEducation.push(updateEducation)
+        }
+        setEducation(newEducation)
+    }
     return (
         <Box id={`education${props.number}`} key={number}>
             <Typography variant="h6">School {number + 1}</Typography>
@@ -240,26 +238,26 @@ const ExperienceSection = props => {
     const debouncedTimeJobEnd = useDebounce(timeJobEnd, 2000);
     const debouncedDescription = useDebounce(description, 2000);
     useEffect(() => {
-        const addExperience = (company, position, timeJobStart, timeJobEnd, description) => {
-            let updateExperience = {
-                id: number,
-                company,
-                position,
-                timeJobStart,
-                timeJobEnd,
-                description
-            };
-            let newExperience = [...experience];
-            let found = newExperience.findIndex(ele => ele.id === number);
-            if (found !== -1) {
-                newExperience[found] = updateExperience;
-            } else {
-                newExperience.push(updateExperience);
-            }
-            setExperience(newExperience)
-        }
         addExperience(debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription);
-    }, [debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription, experience, number, setExperience])
+    }, [debouncedCompany, debouncedPosition, debouncedTimeJobStart, debouncedTimeJobEnd, debouncedDescription])
+    const addExperience = (company, position, timeJobStart, timeJobEnd, description) => {
+        let updateExperience = {
+            id: number,
+            company,
+            position,
+            timeJobStart,
+            timeJobEnd,
+            description
+        };
+        let newExperience = [...experience];
+        let found = newExperience.findIndex(ele => ele.id === number);
+        if (found !== -1) {
+            newExperience[found] = updateExperience;
+        } else {
+            newExperience.push(updateExperience);
+        }
+        setExperience(newExperience)
+    }
     return (
         <Box id={`experience${props.number}`} key={props.number}>
             <Typography variant="h6">Experience {props.number + 1}</Typography>
